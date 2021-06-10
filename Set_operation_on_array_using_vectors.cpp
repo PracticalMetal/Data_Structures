@@ -131,12 +131,12 @@ vector<int> Difference(vector<int> arr1,vector<int> arr2)
         }
         else if((*iter1)>(*iter2))
         {
-            arr3.push_back(*iter2);
+            //arr3.push_back(*iter2);
             iter2++;
         }
         else
         {
-            arr3.push_back(*iter1);
+            //arr3.push_back(*iter1);
             iter1++;
             iter2++;
 
@@ -146,12 +146,11 @@ vector<int> Difference(vector<int> arr1,vector<int> arr2)
     for(;iter1!=arr1.end();iter1++)
     arr3.push_back(*iter1);
 
-    for(;iter2!=arr2.end();iter2++)
-    arr3.push_back(*iter2);
+    
 
     return arr3;
 
-
+}
 
  
 int main()
@@ -164,7 +163,7 @@ int main()
     }
 
     vector<int> arr3;
-    arr3=Intersection(arr1,arr2);
+    arr3=Difference(arr1,arr2);
     print_vect(arr3);
 
 }
