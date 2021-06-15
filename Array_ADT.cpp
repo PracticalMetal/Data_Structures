@@ -37,6 +37,7 @@ struct Array* array_merge(Array *arr1,Array *arr2);
 
 
 
+
 int main()
 {
 	Array arr1;
@@ -48,6 +49,7 @@ int main()
 	int n1;
 	cout << "Enter the number of numbers" << endl;
 	cin >> n1;
+	cout<<"Enter all the elements"<<endl;
 	for (int i = 0; i < n1; i++)
 	{
 		cin >> arr1.a[i];
@@ -62,6 +64,7 @@ int main()
 	int n2;
 	cout << "Enter the number of numbers" << endl;
 	cin >> n2;
+	cout<<"Enter all the elements"<<endl;
 	for (int i = 0; i < n2; i++)
 	{
 		cin >> arr2.a[i];
@@ -71,14 +74,28 @@ int main()
 	arr1.length = n1;
 	arr2.length = n2;
 
-	
-
-
-	
-
-	Array *arr3=array_merge(&arr1,&arr2);
-
+	Array *arr3;
+	arr3=array_merge(&arr1,&arr2);
 	display(*arr3);
+
+	// system("clear");
+
+
+	// cout<<setw(50)<<"Menu \n\n";
+	// cout<<"1."<<setw(10)<<"Insert"<<endl;
+	// cout<<"2."<<setw(10)<<"Delete"<<endl;
+	// cout<<"3."<<setw(10)<<"Search"<<endl;
+	// cout<<"4."<<setw(10)<<"Sum"<<endl;
+	// cout<<"5."<<setw(10)<<"Display"<<endl;
+	// cout<<"6."<<setw(10)<<"Exit"<<endl;
+
+	// cout<<setw(50)<<"Enter your choice"<<endl;
+
+	// int choice;
+	// cin>>choice;
+		
+
+
 
 
 
@@ -296,54 +313,28 @@ void leftForNegative(Array *r)
 
 struct Array* array_merge(Array *arr1,Array *arr2)
 {
-	int i,j,k;
-	i=j=k=0;
-
-	Array *arr3=new Array;
-
-	//assuming array to be sorted
-
-	while(i<arr1->length && j<arr2->length)
-	{
-		if(arr1->a[i]<arr2->a[j])
-		arr3->a[k++]=arr1->a[i++];
-		else
-		arr3->a[k++]=arr2->a[j++];
-	}
-
-	for(;i<arr1->length;i++)
-	arr3->a[k++]=arr1->a[i];
-
-	for(;j<arr2->length;i++)
-	arr3->a[k++]=arr2->a[j];
-
-	arr3->size=arr3->length=arr1->length+arr2->length;
-
-	return arr3;	
+int i,j,k;
+i=j=k=0;
+ 
+Array *arr3=new Array;
+arr3->a=new int[arr1->length+arr2->length];// this line missing
+//assuming array to be sorted
+ 
+while(i<arr1->length && j<arr2->length)
+{
+if(arr1->a[i]<arr2->a[j])
+arr3->a[k++]=arr1->a[i++];
+else
+arr3->a[k++]=arr2->a[j++];
 }
-
-
-// struct Array* Merge(struct Array *arr1,struct Array *arr2)
-// {
-//  int i,j,k;
-//  i=j=k=0;
-
-//  struct Array *arr3=(struct Array *)malloc(sizeof(struct
-// Array));
-
-//  while(i<arr1->length && j<arr2->length)
-//  {
-//  if(arr1->A[i]<arr2->A[j])
-//  arr3->A[k++]=arr1->A[i++];
-//  else
-//  arr3->A[k++]=arr2->A[j++];
-//  }
-//  for(;i<arr1->length;i++)
-//  arr3->A[k++]=arr1->A[i];
-//  for(;j<arr2->length;j++)
-//  arr3->A[k++]=arr2->A[j];
-//  arr3->length=arr1->length+arr2->length;
-//  arr3->size=10;
-
-//  return arr3;
-// }
+ 
+for(;i<arr1->length;i++)
+arr3->a[k++]=arr1->a[i];
+ 
+for(;j<arr2->length;j++) //it shold be j++
+arr3->a[k++]=arr2->a[j];
+ 
+arr3->size=arr3->length=arr1->length+arr2->length;
+ 
+return arr3;
+}
