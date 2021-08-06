@@ -189,6 +189,7 @@ void insertInSorted(node *p,int data)
     node *q=NULL;
     node *t=new node;
     t->data=data;
+    t->next=NULL;
 
     if(first==NULL)
     {
@@ -206,9 +207,64 @@ void insertInSorted(node *p,int data)
             t->next=p;
             first=t;
         }
+        else
+        {q->next=t;
+        t->next=p;}
+    }
+}
+
+void insertInSorted2(node *p,int data)
+{
+    node *q=NULL;
+    node *t=new node;
+    t->data=data;
+    t->next=NULL;
+
+    while(p && data>p->data)
+    {
+        q=p;
+        p=p->next;
+    }
+
+    if(p==first)
+    {
+        t->next=p;
+        first=t;
+    }
+    else
+    {
         q->next=t;
         t->next=p;
     }
+}
+
+void Delete(node *p,int pos)
+{
+    node *q;
+    if(first==NULL)
+    {
+        cout<<"No value to be deleted\n";
+        
+    }
+    else if(pos==1)
+    {
+        p=first;
+        first=first->next;
+        delete p;
+    }
+    else
+    {   int count=1;
+        while(p && count!=pos)
+        {
+            q=p;
+            p=p->next;
+            count++;
+        }
+        if(p)
+        {q->next=p->next;
+        delete p;}
+    }
+
 }
 
 int main()
@@ -216,7 +272,7 @@ int main()
     int arr[]={1,2,3,4,5,66,77};
     Create(arr,7);
 
-   insertInSorted(first,-78);
+   Delete(first,7);
    Display(first);
 
     

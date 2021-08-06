@@ -255,24 +255,119 @@ void Delete(struct node* p,int pos)
 
 bool ifSorted(struct node *p)
 {
-    if(count)
     node *q=NULL;
+    if(first==NULL || countNoOfElements(p)==1)return true;
+    else
+    {
+        for(int i=0;i<countNoOfElements(first)-1;i++)
+        {
+            q=p;
+            p=p->next;
+            if(q->data>p->data)return false;
+        }
+        return true;
+    }
+}
+
+void removeDuplicates()
+{
+    node *q=first,*p=first->next;
     while(p)
     {
+        if(p->data!=q->data)
+        {
+            q=p;
+            p=p->next;
+        }
+        else
+        {
+            q->next=p->next;
+            delete p;
+            p=q->next;
+        }
+    }
+}
+
+void recursiveRemoveDuplicates(node *p)
+{
+    
+    node *to_free;
+
+    if(first==NULL)return;
+    
+    if(p!=NULL)
+    {
+        if(p->data==p->next->data)
+        {
+            to_free=p->next;
+            p->next=p->next->next;
+            free(to_free);
+            recursiveRemoveDuplicates(p);
+        }
+        else
+        {
+            recursiveRemoveDuplicates(p->next);
+        }
+    }
+    
+}
+
+void reversingUsingArray(struct node *p)
+{   int i=0;
+    int arr[countNoOfElements(first)];
+    while(p)
+    {
+        arr[i]=p->data;
+        p=p->next;
+        i++;
+    }
+    i--;p=first;
+    while(p)
+    {
+        p->data=arr[i--];
+        p=p->next;
+    }
+
+    // time     :   O(2n)=O(n)
+    // space    :   O(2n)=O(n)
+}
+
+void reversingUsingSlidingPointers(struct node *p)
+{
+    node *q=NULL,*r=NULL;
+    while(p)
+    {
+        r=q;
         q=p;
         p=p->next;
-        if((q->data) > (p->data))
-        return false;
+        q->next=r;
     }
-    return true;
+    first=q;
+
+    // time     :   O(n)
+    // space    :   O(1)
+}
+
+void reversingUsingRecursion(struct node *q,struct node *p)
+{  
+    if(p!=NULL)
+    {
+        reversingUsingRecursion(p,p->next);
+        p->next=q;
+    }
+    else
+    {
+        first=q;
+    }
 }
 
 int main()
 {
-    int A[]={1,2,3,14,15,16};
+    int A[]={1,2,3,4,5,6};
     create(A,6);
 
-    cout<<ifSorted(first);    
-    // display(first);
+    node *p=first,*q=NULL;
+    reversingUsingRecursion(q,p);    
+    display(first);
     
 }   
