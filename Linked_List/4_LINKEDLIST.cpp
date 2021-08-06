@@ -6,18 +6,19 @@ struct node
 {
     int data;
     struct node *next;
-}*first=NULL;
+}*first=NULL,*second=NULL, *third=NULL;
 
 //Creating a node
-void create(int A[],int n)
-{
+node* create(int A[],int n)
+{   
+    node *head;
     int i;
     struct node *t,*last;
-    first=new node;
+    head=new node;
 
-    first->data=A[0];
-    first->next=0;
-    last=first;
+    head->data=A[0];
+    head->next=0;
+    last=head;
 
     for(int i=1;i<n;i++)
     {
@@ -28,6 +29,7 @@ void create(int A[],int n)
         last->next=t;
         last=t;
     }
+    return head;
 }
 
 void display(struct node *p)
@@ -361,13 +363,77 @@ void reversingUsingRecursion(struct node *q,struct node *p)
     }
 }
 
+void Merge(node *p, node *q)
+{
+    node *last;
+
+    // setting third and last to the smallest element out of both the LL
+    if(p->data>q->data)
+    {
+        third=last=q;     // setting
+        q=q->next;        // shifting
+        last->next=NULL;  // nulling
+    }
+    else
+    {
+        third=last=p;
+        p=p->next;
+        last->next=NULL;
+    }
+    while(p && q)
+    {
+        if(p->data<q->data)
+        {
+            last->next=p;
+            last=p;
+            p=p->next;
+            last->next=NULL;
+        }
+        else
+        {
+            last->next=q;
+            last=q;
+            q=q->next;
+            last->next=NULL;
+        }
+    }
+    if(q)
+    {
+        last->next=q;
+    }
+    else if(p)
+    {
+        last->next=p;
+    }
+
+    // time     :       O(m+n)
+}
+
+bool isLoop(struct node *p)
+{
+    node *q;
+    q=p;
+    do
+    {
+        p=p->next;
+        q=q->next;
+        q=q!=NULL?q->next:NULL;
+    }
+    while(p && q && p!=q);
+    return p==q?true:false;
+
+    // time     :       O(n)
+}
+
 int main()
 {
-    int A[]={1,2,3,4,5,6};
-    create(A,6);
+    int A[]={1,22,33,44,55,66};
+    first=create(A,6);
 
-    node *p=first,*q=NULL;
-    reversingUsingRecursion(q,p);    
-    display(first);
+    int B[]={2,23,45,56,77};
+    second=create(B,5);
+
+    cout<<isLoop(first);    
+    // display(third);
     
 }   
