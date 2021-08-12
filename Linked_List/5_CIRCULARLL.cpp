@@ -92,12 +92,42 @@ void _insert(struct node *p, int data, int pos=0)
    }
 }
 
+void _delete(node *p, int pos=1)
+{
+    /* there can again be two cases
+    1) deleting and shifting the head
+    2) deleting from a given position */
+
+    if(HEAD==NULL)return; /* checking for empty list */
+    if(pos==1)
+    {
+        while(p->next!=HEAD)p=p->next;
+        if(p==HEAD)
+        {
+        free(HEAD);
+        HEAD=NULL;
+        }
+        node *temp=HEAD;
+        p->next=HEAD->next;
+        HEAD=HEAD->next;
+        free(temp);
+    }
+    else
+    {
+        for(int i=0;i<pos-2;i++)p=p->next;
+        node *q=p->next;
+        p->next=q->next;
+        free(q);
+    }
+
+}
+
 int main()
 {
     int a[]={1,21,32,43,54};
     create(a,5);
 
-    _insert(HEAD,5,2);
+    _delete(HEAD,8);
 
     display(HEAD);
 }
