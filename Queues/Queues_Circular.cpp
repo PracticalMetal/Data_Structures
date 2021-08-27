@@ -21,12 +21,13 @@ class Queue
 
 void Queue::display()
 {
-    int temp=front+1;
-    do
-    {
-        cout<<Q[temp]<<" ";
-        temp=(temp+1)%size;
-    }while(temp!=(rear+1)%size);
+int temp=(front+1)%size;
+while(temp!=(rear+1)%size)
+{
+cout<<Q[temp]<<" ";
+temp=(temp+1)%size;
+}
+ 
 }
 
 void Queue::enqueue(int x)
