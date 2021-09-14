@@ -1,77 +1,110 @@
 #ifndef Stacks_h
 #define Stacks_h
 
-#include <iostream>
+#include <iostream>  
+  
+ using namespace std;
 
-using namespace std;
+ /* for implementation of stack we use structure */
+ struct Stack
+ {
+     int size;
+     int top;
+     Node **s;  /* instead of defining a fixed size array we define a pointer which will point to a dynamically defined array */
 
-struct node
+ };
+
+void _push_back(struct Stack *st, Node *x)      /* stack is being modified therefore we are passing it by address */
 {
-    int data;
-    node *next;
-}*top=NULL;
-
-void display(struct node *p)
-{
-    while(p)
+    if(st->top==st->size-1)
     {
-        cout<<p->data;
-        p=p->next;
+        cout<<"Stack overflow \n";  
     }
+    /* checkin for overflow */
+    else
+    {
+        st->top++;   /* increasing top to next position */
+        st->s[st->top]=x;
+    }
+
+    // Time: O(1)
 }
 
-void _push_back(int x)
+Node* _pop(struct Stack *st)
 {   
-    node *t;
-        t=new node;
-    /* checking for overflow condition */
-    if(t==NULL)return;
+    Node* x=NULL;
+    /* checking for empty stack, as we cannot pop from a empty stack */
+    if(st->top==-1)
+    cout<<"Stack underflow \n";
     else
     {
-        t->data=x;
-        t->next=top;
-        top=t;
+        x=st->s[st->top];
+        st->top--;
+    }
+    return x;  
+    /* if we do not go into else part this fnc will return -1 */
+
+    // Time: O(1)
+}
+
+Node* peek(struct Stack st, int pos)
+{   
+    Node* x=0;
+    /* formula is Index=top-pos+1; */
+    if(st.top-pos+1<0)cout<<"Invalid position \n";
+    else
+    {
+        x=st.s[st.top-pos+1];
+    }
+    return x;
+
+    // Time: O(1)
+}
+
+Node* stack_top(struct Stack st)
+{
+    if(st.top==-1)return NULL;
+    else
+    return st.s[st.top];
+
+    // Time: O(1)
+}
+
+bool is_empty_stack(struct Stack st)
+{
+    if(st.top==-1)return 1;
+    else
+    return 0;
+
+    // Time: O(1)
+}
+
+bool is_full(struct Stack st)
+{
+    if(st.top=st.size-1)return 1;
+    else
+    return 0;
+
+    // Time: O(1)
+}
+
+void display(struct Stack st)
+{
+    if(st.top==-1)cout<<"Underflow \n";
+    else
+    {
+        for(int i=st.top;i>=0;i--)
+        cout<<st.s[i];
     }
 }
 
-void _pop(struct node *p)
+void create(struct Stack *st, int size)
 {
-    if(top==NULL)return;
-    else
-    {
-        node *p=top;
-        top=top->next;
-        delete(p);
-    }
-}
+    // cout<<"Enter the size of stack \n";
+     st->size=size;
+     st->s=new Node*[st->size];
 
-int peek(struct node *p, int pos)
-{
-    if(top==NULL)return -1;
-    else
-    {
-        for(int i=0;i<pos-1 && p;i++)p=p->next;
-        return p->data;
-    }
-}
-
-int stack_top(struct node *p)
-{
-    if(top)return top->data;
-    else return -1;
-}
-
-bool is_empty(struct node *p)
-{
-    return top==NULL?true:false;
-}
-
-bool is_full(struct node *p)
-{
-    node *t=new node;
-    bool c=t?true:false;
-    delete (t);
-    return c;
+     st->top=-1;
 }
 
 #endif
