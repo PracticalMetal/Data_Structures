@@ -1,4 +1,4 @@
-#include <iostream>  
+#include <bits/stdc++.h>  
  
 using namespace std;
  
@@ -54,6 +54,7 @@ void Delete(Array *arr, int pos)
     if(pos>arr->length-1)return;
     for(int i=pos;i<arr->length-1;i++)arr->a[i]=arr->a[i+1];
     arr->length--;
+    // time : O(n)
 }
 
 int binary_search(Array *arr, int key)
@@ -69,13 +70,107 @@ int binary_search(Array *arr, int key)
         else h=mid-1;
     }
     return -1;
+
+    // time : O(logn)
 } 
+
+int _get(Array arr,int index)
+{
+    if(index<0 || index>arr.length)return -1;
+    else return arr.a[index];
+
+    // time : O(1)
+}
+
+int rSum(Array arr, int n)
+{
+    if(n<0)return 0;
+    else return arr.a[n]+rSum(arr,n-1);
+}
+
+void _reverse(Array *arr)
+{
+    for(int j=arr->length-1,i=0;i<=j;i++,j--)swap(arr->a[i],arr->a[j]);
+    // time : O(n)
+}
+
+void shifting(Array *arr,int shift, string type)
+{
+    if(type=="left")
+    {   
+        int i,j;
+        for(i=0,j=shift;j<arr->length;i++,j++)
+        {
+            arr->a[i]=arr->a[j];
+        }
+        for(;i<arr->length;i++)arr->a[i]=0;
+    }
+    else
+    {
+        int i,j;
+        for(i=arr->length-shift-1,j=arr->length-1;i>=0;i--,j--)arr->a[j]=arr->a[i];
+        for(i=0;i<shift;i++)arr->a[i]=0;
+    }
+    
+}
+
+void _rotate(Array *arr,int rotate,string type)
+{
+    if(type=="left")
+    {
+       /* using jugling algorithm */
+       /* using n = length of the array and k=shift value */
+       /* number of sets(outer loop) will depend upon gcd of n,k */
+        
+        int temp,d=-1,j;
+        int gcd=__gcd(arr->length,rotate);
+        for(int i=0;i<gcd;i++)
+        {
+            j=i;
+            temp=arr->a[i];
+            while(1)
+            {
+                d=(j+rotate)%arr->length;
+                if(d==i)break;
+                arr->a[j]=arr->a[d];
+                j=d;
+            }
+            arr->a[j]=temp;
+        }
+    }
+    else if(type=="right")
+    {
+       _reverse(arr);
+       _rotate(arr,rotate,"left");
+       _reverse(arr);
+
+    }
+    else
+    cout<<"Wrong input!";
+}
+
+void insert_in_sorted(Array *arr, int key)
+{
+    if(arr->length==arr->size)return;
+    arr->a[arr->length]=key;
+    int i=arr->length-1;
+    while(1)
+    {
+        if(arr->a[i]>key)
+        {
+            swap(arr->a[i+1],arr->a[i]);
+            i--;
+        }
+        else break;
+    }
+    arr->length++;
+}
 
 int main()
 {
     Array array_1;
     create(&array_1,10);
     insert_elements(&array_1,5);
-    cout<<binary_search(&array_1,11);
-
+    insert_in_sorted(&array_1,2);
+    display(array_1);
 }
