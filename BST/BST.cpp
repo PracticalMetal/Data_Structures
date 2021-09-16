@@ -174,12 +174,7 @@ void create_pre(int pre[],int n)
 
 int main()
 {
-    insert(10);
-    insert(5);
-    insert(20);
-    rInsert(root,8);
-    insert(30);
-    inorder(root);cout<<"\n";
-    Delete(root,10);
-    inorder(root);
+    int arr[]={23,45,1,78,34};
+    create_pre(arr,5);
+    inorder(root);;
 }

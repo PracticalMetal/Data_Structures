@@ -92,7 +92,7 @@ bool is_empty_stack(struct Stack st)
 
 bool is_full(struct Stack st)
 {
-    if(st.top=st.size-1)return 1;
+    if(st.top==st.size-1)return 1;
     else
     return 0;
 
@@ -109,7 +109,7 @@ void display(struct Stack st)
     }
 }
 
-void create(struct Stack *st, int size)
+void create_stack(struct Stack *st, int size)
 {
     // cout<<"Enter the size of stack \n";
      st->size=size;
