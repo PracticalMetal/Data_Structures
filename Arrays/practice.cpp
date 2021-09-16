@@ -166,11 +166,81 @@ void insert_in_sorted(Array *arr, int key)
     arr->length++;
 }
 
+void Merge(Array *a1,Array *a2, int n1, int n2)
+{
+    int i,j,k;
+    i=j=k=0;
+    int merge_array[100]={0};
+    while(i<n1 && j<n2)
+    {
+        if(a1->a[i]<a2->a[j])merge_array[k++]=a1->a[i++];
+        else merge_array[k++]=a2->a[j++];
+    }
+    for(;i<n1;i++)merge_array[k++]=a1->a[i];
+    for(;j<n2;j++)merge_array[k++]=a2->a[j];
+    
+    for(int l=0;l<n1+n2;l++)cout<<merge_array[l]<<" ";
+
+    // time: O(m+n)
+}
+
+void Union(Array *a1,Array *a2, int n1, int n2)
+{
+    int i,j,k;
+    i=j=k=0;
+    int merge_array[100]={0};
+    while(i<n1 && j<n2)
+    {
+        if(a1->a[i]<a2->a[j])merge_array[k++]=a1->a[i++];
+        else if(a1->a[i]>a2->a[j])merge_array[k++]=a2->a[j++];
+        else 
+        {merge_array[k++]=a2->a[j];i++;j++;}
+    }
+    for(;i<n1;i++)merge_array[k++]=a1->a[i];
+    for(;j<n2;j++)merge_array[k++]=a2->a[j];
+
+    for(int l=0;l<n1+n2;l++)cout<<merge_array[l]<<" ";
+}
+
+void intersection(Array *a1,Array *a2, int n1, int n2)
+{
+    int i,j,k;
+    i=j=k=0;
+    int merge_array[100]={0};
+    while(i<n1 && j<n2)
+    {
+        if(a1->a[i]<a2->a[j])merge_array[k++]=a1->a[i++];
+        else if(a1->a[i]>a2->a[j])j++;
+        else 
+        {merge_array[k++]=a2->a[j];i++;j++;}
+    }
+    for(;i<n1;i++)merge_array[k++]=a1->a[i];
+    for(int l=0;l<n1+n2;l++)cout<<merge_array[l]<<" ";
+}
+
+void Difference(Array *a1,Array *a2, int n1, int n2)
+{
+    int i,j,k;
+    i=j=k=0;
+    int merge_array[100]={0};
+    while(i<n1 && j<n2)
+    {
+        if(a1->a[i]<a2->a[j])merge_array[k++]=a1->a[i++];
+        else if(a1->a[i]>a2->a[j])j++;
+        else 
+        {i++;j++;}
+    }
+    for(int l=0;l<n1+n2;l++)cout<<merge_array[l]<<" ";
+
+}
+
 int main()
 {
     Array array_1;
+    Array array_2;
     create(&array_1,10);
+    create(&array_2,10);
     insert_elements(&array_1,5);
-    insert_in_sorted(&array_1,2);
-    display(array_1);
+    insert_elements(&array_2,5);
+    Difference(&array_1,&array_2,5,5);
 }
