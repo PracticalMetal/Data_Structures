@@ -39,9 +39,55 @@ void insertion_sort(int A[], int n)
     }
 }
 
+
+void selection_sort(int A[], int n)
+{
+    int i,j,k;
+    for(i=0;i<n-1;i++)
+    {
+        for(j=k=i;j<n;j++)
+        {
+            if(A[j]<A[k])k=j;
+        }
+        swap(A[i],A[k]);
+    }
+}
+
+
+int partition(int A[], int l, int h)
+{
+    int pivot=A[l];
+    int i=l;
+    int j=h;
+
+    do
+    {
+        do{i++;}while(A[i]<=pivot);
+        do{j--;}while(A[j]>pivot);
+        if(i<j)swap(A[i],A[j]);
+    }while(i<j);
+
+    swap(A[l],A[j]);
+
+    return j;
+
+}
+
+
+void quick_sort(int A[], int l, int h)
+{
+    int j;
+    if(l<h)
+    {
+        j=partition(A,l,h);
+        quick_sort(A,l,j);
+        quick_sort(A,j+1,h);
+    }
+}
+
 int main()
 {
-    int A[]={3,7,9,10,6,5,12,4,11,2},n=10;
-    insertion_sort(A,n);   
+    int A[]={3,7,9,10,6,5,12,4,11,2,INT32_MAX},n=11;
+    quick_sort(A,0,10);   
     for(int x:A)cout<<x<<" ";
 }
