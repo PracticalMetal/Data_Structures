@@ -6,9 +6,7 @@ using namespace std;
 
 int main()
 {
-   int h=16;
-   int a=1;
-   a=a<<2;
-   cout<<a;
-   //cout<<a&h;
+  string s="hello";
+  if(s[5]=='\0')cout<<"Null";
+  else cout<<"Not null";
 }
