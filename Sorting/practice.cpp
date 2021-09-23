@@ -1,4 +1,4 @@
-#include <iostream>  
+#include <bits/stdc++.h>  
  
 using namespace std;
 
@@ -115,9 +115,104 @@ void quick_sort(int A[], int l, int h)
     }
 }
 
+
+void Merge(int A[], int l, int mid, int h)
+{
+    int i,j,k;
+    i=l;
+    j=mid+1;
+    k=l;
+
+    // new auxilary array
+    int B[h+1];
+
+    while(i<=mid && j<=h)
+    {
+        if(A[i]<A[j])B[k++]=A[i++];
+        else B[k++]=A[j++];
+    }
+    for(;i<=mid;i++)B[k++]=A[i];
+    for(;j<=h;j++)B[k++]=A[j];
+
+    // copying back the elements
+    for(i=l;i<=h;i++)A[i]=B[i];
+
+}
+
+
+void Imerge_sort(int A[], int n)
+{
+    int p,l,mid,h,i;
+
+    // loop for passes
+    for(p=2;p<=n;p=p*2)
+    {   
+        // here i+p-1 is the high value
+        for(i=0;i+p-1<n;i=i+p)
+        {
+            l=i;
+            h=i+p-1;
+            mid=(l+h)/2;
+            Merge(A,l,mid,h);
+        }
+        // checking for the condition if we are merge less number than required
+        if(n-i>p/2)
+        {
+            l=i;
+            h=i+p-1;
+            mid=(l+h)/2;
+            Merge(A,l,mid,n-1);
+        }
+    }
+    if(p/2<n)
+    {
+        
+        Merge(A,0,p/2-1,n-1);
+    }
+}
+
+
+void Rmerge_sort(int A[], int l, int h)
+{
+    int mid;
+    if(l<h)
+    {
+        mid=(l+h)/2;
+        Rmerge_sort(A,l,mid);
+        Rmerge_sort(A,mid+1,h);
+        Merge(A,l,mid,h);
+    }
+}
+
+
+void count_sort(int A[], int n)
+{
+    int i,j,Max;
+    Max=*max_element(A,A+n);
+    int *c=new int[Max+1];
+
+    for(i=0;i<Max+1;i++)c[i]=0;
+
+    for(i=0;i<n;i++)c[A[i]]++;
+
+    i=0;j=0;
+    while(i<Max+1)
+    {
+        if(c[i]>0)
+        {
+            A[j++]=i;
+            c[i]--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+}
+
 int main()
 {
-    int A[]={3,7,9,10,6,5,12,4,11,2, INT32_MAX},n=11;
-    quick_sort(A,0,10);
+    int A[]={3,7,9,10,6,5,12,4,11,2,21},n=11;
+    count_sort(A,n);
     for(int x:A)cout<<x<<" ";
 }
