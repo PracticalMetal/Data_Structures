@@ -22,7 +22,7 @@ void Display(struct Matrix m)
  int i,j;
  for(i=0;i<m.n;i++)
  {
- for(j=0;j<m.n;j++)
+ for(j=0;j<m.n;j++)         
  {
  if(i==j)
  printf("%d ",m.A[i]);
