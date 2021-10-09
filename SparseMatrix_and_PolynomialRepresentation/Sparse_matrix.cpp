@@ -72,16 +72,18 @@ struct Sparse* add(struct Sparse s1, struct Sparse s2)
 
     // declaring starting pointer
     int i,j,k;
-    i=j=k=0;
+    i=j=k=1;
 
     // comparing rows
+    while(i<=s1.num && j<=s2.num)
+    {
     if(s1.e[i].rows < s2.e[j].rows)
         sum->e[k++]=s1.e[i++];
     
     if(s1.e[i].rows > s2.e[j].rows)
         sum->e[k++]=s2.e[j++];
 
-    else
+    else // TODO: Check for condition in which the column no is smaller or not 
     {sum->e[k].rows=s1.e[i].rows;
     sum->e[k].column=s2.e[i].column;
     sum->e[k].data=s1.e[i].data+s2.e[j].data;
@@ -90,18 +92,19 @@ struct Sparse* add(struct Sparse s1, struct Sparse s2)
     j++;
     k++;
     }
+    }
 
     // checking if there are any left over elements
-    if(i<s1.num)
+    if(i<=s1.num)
     {
-        for(;i<s1.num;i++)
+        for(;i<=s1.num;i++)
         {
             sum->e[k++]=s1.e[i];
         }
     }
-    if(j<s2.num)
+    if(j<=s2.num)
     {
-        for(;j<s2.num;j++)
+        for(;j<=s2.num;j++)
         {
             sum->e[k++]=s1.e[j];
         }
