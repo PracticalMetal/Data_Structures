@@ -168,12 +168,208 @@ Node<T>* improved_seach(struct Node<T> *p, T key)
     return NULL;
 }
 
+template<class T>
+Node<T>* insert(struct Node<T>* p, T data, int pos=0)
+{
+    /* there are two cases in this:
+    1. Inserting before the first node
+    2. Inserting after a given node */
+    
+    // checking if empty
+    if(first==NULL)return NULL;
+    // for creating a new node
+    struct Node<T>* t;
+    t=new Node<T>;
+    t->next=NULL;
+    t->data=data;
+
+    // if pos==0
+    if(pos==0)
+    {
+        t->next=first;
+        first=t;
+        return t;
+    }
+    // rest of the cases
+    struct Node<T>* q=NULL; // trailing pointer to change links
+    // using for loop to iterate to the given pos and changing links
+    for(int i=0;i<pos;i++)
+    {
+        q=p;
+        p=p->next;
+    }
+    // if p is NULL making new node's next as NULL and make q point to p, else q's next= t and t's next is p
+    if(p==NULL)
+    {
+        q->next=t;        
+    }
+    else
+    {
+        q->next=t;
+        t->next=p;
+    }
+    return t;
+
+}
+
+template<class T>
+Node<T>* insert_in_sorted(struct Node<T>* p, T data)
+{
+    // creating a new node
+    struct Node<T>* t;
+    t=new Node<T>;
+    t->data=data;
+    t->next=NULL;
+
+    // checking if linked list is empty
+    if(first==NULL)
+    {
+        first=t;
+        return t;
+    }
+    // checking if smaller than first node
+    if(data<=p->data)
+    {
+        t->next=first;
+        first=t;
+        return t;
+    }
+    // checking if the next node is greater than the previous
+    while(p->next)
+    {
+        if(p->next->data>data)break;
+        p=p->next;
+    }
+    struct Node<T> *  q=p->next;
+    p->next=t;
+    t->next=q;
+    return t;
+}
+
+
+template<class T>
+void _delete(struct Node<T>* p, int pos)
+{
+    /* there are two cases:
+    1. Deleting the first node
+    2. Deleting the node at given position */
+    // Deleting the first node
+    if(pos==0)
+    {
+        struct Node<T>* q=first;
+        if(first->next==NULL)
+        delete(first);
+        else
+        {
+            first=first->next;
+            delete(q);
+        }
+    }
+    else
+    {
+        struct Node<T>* q=NULL;
+        for(int i=0;i<pos;i++)
+        {q=p;
+        p=p->next;}
+        if(p->next==NULL)
+        {
+            q->next=NULL;
+            delete(p);
+        }
+        else
+        {
+            q->next=p->next;
+            delete(p);
+        }
+    }
+}
+
+template<class T> 
+bool is_sorted(struct Node<T>* p)
+{
+    while(p->next)
+    {
+        if(p->next->data<p->data)return false;
+        p=p->next;
+    }
+    return true;
+}
+
+template<class T> 
+void remove_duplicates(struct Node<T>* p)
+{
+    // pointer to move forward to delete the common elements
+    struct Node<T>*q=p;
+    while(p->next)
+    {
+        p=p->next;
+        if(q->data==p->data)
+        {
+            q->next=p->next;
+            delete(p);            
+        }
+        q=p;
+    }
+}
+
+template<class T> 
+void r_remove_duplicate(struct Node<T>* p)
+{
+    // do nothing if empty list
+    if(first==NULL)return;
+    // pointer to the node to be deleted
+    struct Node<T>* to_free;
+    if(p->next)
+    {
+        if(p->data==p->next->data)
+        {
+            to_free=p->next;
+            p->next=p->next->next;
+            delete(to_free);
+            r_remove_duplicate(p);
+        }
+        else
+        {
+            r_remove_duplicate(p->next);
+        }
+    }
+}
+
+template<class T> 
+void reverse(struct Node<T>* p)
+{
+    /* using sliding pointer */
+    struct Node<T>*r=NULL,*q=NULL;
+    while(p)
+    {
+        q=r;
+        r=p;
+        p=p->next;
+        r->next=q;
+    }
+    first=r;
+}
+
+
+template<class T> 
+void r_reverse(struct Node<T>*q,struct Node<T>* p)
+{
+    if(p!=NULL)
+    {
+        r_reverse(p,p->next);
+        p->next=q;
+    }
+    else
+    {
+        first=q;
+    }
+}
 
 int main()
 {
     int A[5] = {1, 2, 3, 4, 5};
     create(A, 5);
-
-    improved_seach(first,4);
-    improved_seach(first,4);
+    Node<int>* q=NULL;
+    r_reverse(q,first);
+    display(first);
 }
